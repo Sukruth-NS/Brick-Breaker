@@ -8,14 +8,14 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class HelloApplication extends Application {
+public class Main extends Application {
     static Stage globalstage;
     @Override
     public void start(Stage stage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("startPage.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("startPage.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 600, 400);
         globalstage = stage;
-        stage.setTitle("Welcome to the smash");
+        stage.setTitle("Welcome to the Smash");
         stage.setScene(scene);
         stage.show();
     }
@@ -24,7 +24,7 @@ public class HelloApplication extends Application {
     public void startbuttonclick() throws IOException {
         //we have to create game interface
 //        globalstage.setTitle("button onHelloButtonClick");
-        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("gamescreen.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("gamescreen.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 600, 400);
 
         globalstage.setScene(scene);

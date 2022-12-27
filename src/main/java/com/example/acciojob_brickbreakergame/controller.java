@@ -35,6 +35,7 @@ public class controller implements Initializable {
     private Rectangle slider;
 
     private Button left, right;
+    //1 Frame every 10 millis, which means 100 FPS
     Timeline timeline = new Timeline(new KeyFrame(Duration.millis(10), new EventHandler<ActionEvent>() {
         @Override
         public void handle(ActionEvent actionEvent) {
@@ -43,7 +44,7 @@ public class controller implements Initializable {
             circle.setLayoutX(circle.getLayoutX() + deltax);
             //we need to check for collisions every time here.
             //1.collision with walls, which is scene or border.
-            checkCollision_with_Wall();
+            checkCollision_with_Screen();
 
             //2.collision with slider.
             checkCollision_with_Slider();
@@ -58,7 +59,7 @@ public class controller implements Initializable {
         }
     }));
 
-    public void checkCollision_with_Wall(){
+    public void checkCollision_with_Screen(){
         Bounds bounce = scene.getBoundsInLocal();
         boolean rightSide = circle.getLayoutX() + circle.getRadius() >= bounce.getMaxX(); //getLayout get centre of the circle
         boolean leftSide = circle.getLayoutX() - circle.getRadius() <= bounce.getMinX(); //getRadius get the radius of the ball Or circle
@@ -67,8 +68,8 @@ public class controller implements Initializable {
 
         if(rightSide || leftSide) deltax *= -1;
         if (topSide) deltay *= -1;
-        if (bottomSide) deltay *= -1; //just for testing purpose
-//        if(bottomSide) System.exit(10); //end of game
+//        if (bottomSide) deltay *= -1; //just for testing purpose
+        if(bottomSide) System.exit(10); //end of game
     }
 
     public void checkCollision_with_Slider(){
@@ -83,12 +84,12 @@ public class controller implements Initializable {
 
     public boolean checkCollision_with_Single_brick(Rectangle brick){
         if(circle.getBoundsInParent().intersects(brick.getBoundsInParent())){
-            Bounds bounds = brick.getBoundsInLocal();
+//            Bounds bounds = brick.getBoundsInLocal();
 
-            boolean bottomSide = circle.getLayoutY() - circle.getRadius() <= bounds.getMaxY(); //getRadius get the radius of the ball Or circle
-            boolean topSide = circle.getLayoutY() - circle.getRadius() >= bounds.getMinY(); //getLayout get centre of the circle
-            boolean rightSide = circle.getLayoutX() - circle.getRadius() <= bounds.getMaxX();
-            boolean leftSide = circle.getLayoutX() + circle.getRadius() >= bounds.getMinX();
+            boolean bottomSide = circle.getLayoutY() >= ((brick.getY() + brick.getHeight()) - circle.getRadius()); //getRadius get the radius of the ball Or circle
+            boolean topSide = circle.getLayoutY() <= (brick.getY() + circle.getRadius());//getLayout get centre of the circle
+            boolean rightSide =  circle.getLayoutX() >= ((brick.getX() + brick.getWidth()) - circle.getRadius());
+            boolean leftSide =  circle.getLayoutX() <= (brick.getX() + circle.getRadius());
 
             if(rightSide || leftSide) deltax *= -1;
             if(topSide || bottomSide) deltay *= -1;
